@@ -35,7 +35,7 @@ tauri-plugin-dialog = "2"
 tauri-plugin-liquid-glass = { git = "https://github.com/hkandala/tauri-plugin-liquid-glass", branch = "main" }
 objc2-event-kit = { version = "0.3.2", features = ["std"] }
 objc2-foundation = { version = "0.3.2", features = ["std", "NSGeometry"] }
-objc2 = "0.6.3"
+objc2 = "0.6.4"
 objc2-core-graphics = { version = "0.3", features = ["objc2", "CGGeometry"] }
 block2 = "0.6.2"
 reqwest = { version = "0.13.2", features = ["rustls", "json", "blocking", "stream"] }
