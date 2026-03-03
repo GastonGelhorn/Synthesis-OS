@@ -1,6 +1,5 @@
-# SynthesisOS
+# Synthesis OS
 
-> **The Zero-Browser Interface. No Tabs. Just Actions.**
 
 SynthesisOS is an **AI-native operating system layer** — not a chat UI, not an assistant with plugins. Your requests become *syscalls* dispatched by a Rust kernel, executed by autonomous agents with access to 60+ native macOS tools, and rendered as a spatial, glassmorphic workspace.
 
