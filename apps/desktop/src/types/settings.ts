@@ -68,7 +68,8 @@ export interface SynthesisSettings {
     maxConversationHistory: number; // max exchanges per space
 
     // ── Privacy & Data ──
-    cacheResults: boolean;
+    enableIntentCache: boolean;
+    intentCacheThreshold: number; // 0.80-0.99
     dataPersistence: "local" | "session";
 
     // ── Network ──
@@ -224,7 +225,8 @@ export const DEFAULT_SETTINGS: SynthesisSettings = {
     maxConversationHistory: 10,
 
     // Privacy & Data
-    cacheResults: true,
+    enableIntentCache: true,
+    intentCacheThreshold: 0.90,
     dataPersistence: "local",
 
     // Network

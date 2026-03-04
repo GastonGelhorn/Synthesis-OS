@@ -2040,9 +2040,31 @@ function SectionContent({ sectionId, nodes, onCloseNode, onActivateNode, onClean
         case "privacy":
             return (
                 <div>
-                    <SettingRow label="Cache Synthesis Results" description="Store results locally for faster access">
-                        <Toggle enabled={settings.cacheResults} onChange={(v) => updateSetting("cacheResults", v)} />
+                    <SettingRow label="Smart Tool Shortcuts" description="Learn your tool usage patterns and execute repeat commands instantly without using the LLM. Saves tokens and reduces latency.">
+                        <Toggle enabled={settings.enableIntentCache} onChange={(v) => updateSetting("enableIntentCache", v)} />
                     </SettingRow>
+                    {settings.enableIntentCache && (
+                        <>
+                            <SettingRow label="Cache Confidence" description={`Similarity threshold for shortcut activation (${(settings.intentCacheThreshold * 100).toFixed(0)}%). Higher = more conservative.`}>
+                                <div className="w-32">
+                                    <Slider value={settings.intentCacheThreshold * 100} onChange={(v) => updateSetting("intentCacheThreshold", v / 100)} min={80} max={99} color="#f472b6" />
+                                </div>
+                            </SettingRow>
+                            <SettingRow label="Clear Shortcut Cache" description="Wipe all learned intent shortcuts from the local database.">
+                                <button
+                                    onClick={async () => {
+                                        try {
+                                            const { invoke } = await import("@tauri-apps/api/core");
+                                            await invoke("clear_intent_cache");
+                                        } catch (_) { }
+                                    }}
+                                    className="px-3 py-1.5 text-[11px] font-medium rounded-lg bg-red-500/15 text-red-400 border border-red-500/20 hover:bg-red-500/25 active:scale-95 transition-all"
+                                >
+                                    Clear Cache
+                                </button>
+                            </SettingRow>
+                        </>
+                    )}
                 </div>
             );
 
