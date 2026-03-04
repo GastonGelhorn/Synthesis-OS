@@ -34,7 +34,7 @@ axum-server = { version = "0.8", features = ["tls-rustls"] }
 rustls = { version = "0.23", features = ["ring"] }
 tower = "0.5"
 tower-http = { version = "0.5", features = ["cors", "fs"] }
-jsonwebtoken = "9"
+jsonwebtoken = "10"
 argon2 = "0.5"
 tokio-stream = "0.1"
 time = "0.3.41"
