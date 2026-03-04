@@ -1,5 +1,12 @@
 import { SpaceId } from "./synthesis";
 
+export interface SpaceDefinition {
+    id: string;
+    label: string;
+    icon: string; // Lucide icon name or emoji
+    color: string;
+}
+
 export interface SynthesisSettings {
     // ── AI Engine ──
     aiProvider: "ollama" | "openai" | "anthropic" | "groq" | "gemini";
@@ -52,6 +59,7 @@ export interface SynthesisSettings {
     defaultSpace: SpaceId;
     focusMode: boolean;
     widgetsEnabled: boolean;
+    spaces: SpaceDefinition[];
 
     // ── Synthesis ──
     synthComplete: boolean;
@@ -203,6 +211,11 @@ export const DEFAULT_SETTINGS: SynthesisSettings = {
     defaultSpace: "work",
     focusMode: false,
     widgetsEnabled: true,
+    spaces: [
+        { id: "work", label: "Work", icon: "Briefcase", color: "#60a5fa" },
+        { id: "entertainment", label: "Play", icon: "Gamepad2", color: "#f472b6" },
+        { id: "research", label: "Research", icon: "Search", color: "#34d399" },
+    ],
 
     // Synthesis
     synthComplete: true,

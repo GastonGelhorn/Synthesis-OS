@@ -27,11 +27,7 @@ import { useLiquidGlass } from "@/hooks/useLiquidGlass";
 import type { InputBarHandle, InputMode } from "@/components/synthesis-ui/InputBar";
 import { getMetrics } from "@/lib/agent/metrics";
 
-const SPACE_LABELS: Record<SpaceId, string> = {
-    work: "Work",
-    entertainment: "Play",
-    research: "Research",
-};
+
 
 function AuthenticatedApp() {
     const { settings } = useSettings();
@@ -331,6 +327,7 @@ function AuthenticatedApp() {
         onExitFocusMode: exitFocusMode,
         isFocusMode: focusMode,
         isSettingsOpen: settingsOpen || commandPaletteOpen,
+        settings,
     });
 
     const baseResolutionScale = useMemo(() => {
@@ -411,7 +408,7 @@ function AuthenticatedApp() {
                     nodes={nodes}
                     activeNodeId={activeNodeId}
                     spaceId={activeSpaceId}
-                    spaceLabel={SPACE_LABELS[activeSpaceId]}
+                    spaceLabel={settings.spaces.find(s => s.id === activeSpaceId)?.label ?? activeSpaceId}
                     onActivate={activateNode}
                     onClose={closeNode}
                     onMinimize={minimizeNode}

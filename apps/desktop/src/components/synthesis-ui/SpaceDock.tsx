@@ -21,6 +21,7 @@ import { SpaceId, WidgetKind } from "@/types/synthesis";
 import { cn } from "@/lib/utils";
 import { useSettings } from "@/context/SettingsContext";
 import { GlassContainer } from "./GlassContainer";
+import * as LucideIcons from "lucide-react";
 
 /* ─── Space Definitions ─── */
 interface SpaceDef {
@@ -31,29 +32,7 @@ interface SpaceDef {
     glow: string;
 }
 
-const SPACES: SpaceDef[] = [
-    {
-        id: "work",
-        label: "Work",
-        icon: Briefcase,
-        color: "#60a5fa",
-        glow: "rgba(96, 165, 250, 0.35)",
-    },
-    {
-        id: "entertainment",
-        label: "Play",
-        icon: Gamepad2,
-        color: "#f472b6",
-        glow: "rgba(244, 114, 182, 0.35)",
-    },
-    {
-        id: "research",
-        label: "Research",
-        icon: FlaskConical,
-        color: "#34d399",
-        glow: "rgba(52, 211, 153, 0.35)",
-    },
-];
+
 
 /* ─── Context Tools Definitions ─── */
 interface ContextTool {
@@ -72,13 +51,13 @@ function SpaceItem({
     iconSize,
     onClick,
 }: {
-    space: SpaceDef;
+    space: import("@/types/settings").SpaceDefinition & { glow: string; iconComponent: React.ComponentType<any> };
     isActive: boolean;
     nodeCount: number;
     iconSize: number;
     onClick: () => void;
 }) {
-    const Icon = space.icon;
+    const Icon = space.iconComponent;
     return (
         <motion.button
             onClick={onClick}
@@ -198,6 +177,14 @@ export function SpaceDock({
     };
     const sizes = iconSizeMap[settings.sidebarIconSize || "medium"];
 
+    const mappedSpaces = useMemo(() => {
+        return settings.spaces.map(s => ({
+            ...s,
+            glow: `${s.color}59`, // hex + opacity for glow
+            iconComponent: (LucideIcons as any)[s.icon] || LucideIcons.HelpCircle
+        }));
+    }, [settings.spaces]);
+
     const contextTools = useMemo<ContextTool[]>(() => {
         switch (activeSpaceId) {
             case "work":
@@ -241,7 +228,7 @@ export function SpaceDock({
                 <nav className="flex flex-col gap-3 w-full px-2">
                     {/* Spaces */}
                     <div className="flex flex-col gap-2.5">
-                        {SPACES.map((space) => (
+                        {mappedSpaces.map((space) => (
                             <SpaceItem
                                 key={space.id}
                                 space={space}
