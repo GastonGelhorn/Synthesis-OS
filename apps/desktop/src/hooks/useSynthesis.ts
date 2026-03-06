@@ -198,9 +198,10 @@ export function useSynthesis(nodeStore: SynthesisNodeStore, settings: SynthesisS
         ) => {
             addStep("Streaming mode enabled");
 
-            const conversationCtx = getSpaceHistory(activeSpaceId)
-                .slice(-(settings.maxConversationHistory * 2))
-                .map((m) => ({ role: m.role, content: m.content }));
+            // A new streaming card should always start with a clean conversational context.
+            // We pass an empty conversation history to prevent inheriting commands/tasks
+            // from previously generated unrelated cards in the space.
+            const conversationCtx: { role: string; content: string }[] = [];
 
             // Create AbortController for cancellation
             const streamController = new AbortController();
@@ -1665,10 +1666,9 @@ export function useSynthesis(nodeStore: SynthesisNodeStore, settings: SynthesisS
                         conversationCtx = nodeHistory ? `${nodeHistory}\n\n${cardContext}` : cardContext;
                     }
                 } else {
-                    conversationCtx = getSpaceHistory(activeSpaceId)
-                        .slice(-(settings.maxConversationHistory * 2))
-                        .map((m) => `${m.role}: ${m.content}`)
-                        .join("\n");
+                    // Start fresh for a new card/task to prevent old context 
+                    // (like 'check my emails') bleeding into a new task (like 'show calendar').
+                    conversationCtx = "";
                 }
 
                 // Send node summaries so the agent can introspect the workspace

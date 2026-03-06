@@ -15,7 +15,8 @@ import {
     Search,
     BookOpen,
     Database,
-    Cpu
+    Cpu,
+    HardDrive
 } from "lucide-react";
 import { SpaceId, WidgetKind } from "@/types/synthesis";
 import { cn } from "@/lib/utils";
@@ -152,6 +153,7 @@ interface SpaceDockProps {
     onSynthesize?: (query: string) => void;
     onFocusInput?: () => void;
     onToggleHUD?: () => void;
+    onOpenFileBrowser?: () => void;
 }
 
 /**
@@ -167,7 +169,8 @@ export function SpaceDock({
     onToggleChat,
     onSynthesize,
     onFocusInput,
-    onToggleHUD
+    onToggleHUD,
+    onOpenFileBrowser,
 }: SpaceDockProps) {
     const { settings } = useSettings();
     const iconSizeMap = {
@@ -219,7 +222,7 @@ export function SpaceDock({
         >
             <GlassContainer
                 className="flex flex-col items-center py-2"
-                style={{ width: 58, height: 590 }}
+                style={{ width: 58, height: 640 }}
                 borderRadius={24}
                 blur="6px"
                 saturation="150%"
@@ -284,6 +287,18 @@ export function SpaceDock({
                             <Clock size={sizes.tool} className="text-emerald-400 group-hover:text-emerald-300 transition-colors" />
                             <div className="dock-tooltip">
                                 Recall
+                            </div>
+                        </motion.button>
+                        <motion.button
+                            onClick={onOpenFileBrowser}
+                            whileHover={{ x: 2 }}
+                            whileTap={{ scale: 0.95 }}
+                            aria-label="Open storage"
+                            className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors hover:bg-white/5 group relative"
+                        >
+                            <HardDrive size={sizes.tool} className="text-amber-400 group-hover:text-amber-300 transition-colors" />
+                            <div className="dock-tooltip">
+                                Storage
                             </div>
                         </motion.button>
                         <motion.button

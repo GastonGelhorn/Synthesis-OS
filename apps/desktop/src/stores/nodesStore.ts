@@ -189,7 +189,11 @@ export const useNodesStore = create<NodesStore>((set, get) => ({
 
     getTaskForNode: (nodeId) => {
         const tasks = get().tasks;
-        return Array.from(tasks.values()).find((task) => task.nodeId === nodeId);
+        const nodeTasks = Array.from(tasks.values()).filter((task) => task.nodeId === nodeId);
+        if (nodeTasks.length === 0) return undefined;
+        return nodeTasks.reduce((latest, current) =>
+            current.createdAt > latest.createdAt ? current : latest
+        );
     },
 
     getTaskById: (taskId) => get().tasks.get(taskId),

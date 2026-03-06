@@ -6,6 +6,7 @@ import { WorkspaceView } from "@/components/synthesis-ui/WorkspaceView";
 import { SpaceDock } from "@/components/synthesis-ui/SpaceDock";
 import { MenuBar } from "@/components/synthesis-ui/MenuBar";
 import { SettingsView } from "@/components/synthesis-ui/SettingsView";
+import { FileBrowserView } from "@/components/synthesis-ui/FileBrowserView";
 import { Toast } from "@/components/synthesis-ui/Toast";
 import { CommandPalette } from "@/components/synthesis-ui/CommandPalette";
 import { GenerativeZone } from "@/components/synthesis-ui/GenerativeZone";
@@ -42,6 +43,7 @@ function AuthenticatedApp() {
     const [focusMode, setFocusMode] = useState(false);
     const [edgeHover, setEdgeHover] = useState(false);
     const [hudOpen, setHudOpen] = useState(false);
+    const [fileBrowserOpen, setFileBrowserOpen] = useState(false);
 
     const edgeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -223,8 +225,7 @@ function AuthenticatedApp() {
             return;
         }
         if (useAgent) {
-            const continueNodeId = effectiveMode === "task" && activeNodeId ? activeNodeId : targetNodeId;
-            void handleQuery(query, continueNodeId);
+            void handleQuery(query, targetNodeId);
         } else {
             void handleSearch(query);
         }
@@ -460,6 +461,7 @@ function AuthenticatedApp() {
                         onSynthesize={handleSubmit}
                         onFocusInput={() => inputBarRef.current?.focus()}
                         onToggleHUD={() => setHudOpen(prev => !prev)}
+                        onOpenFileBrowser={() => setFileBrowserOpen(true)}
                     />
                 </motion.div>
 
@@ -505,6 +507,11 @@ function AuthenticatedApp() {
                     onActivateNode={activateNode}
                     onCleanupStuckNodes={nodeStore.cleanupStuckNodes}
                     onCloseAllSpaceNodes={nodeStore.closeAllSpaceNodes}
+                />
+
+                <FileBrowserView
+                    isOpen={fileBrowserOpen}
+                    onClose={() => setFileBrowserOpen(false)}
                 />
 
                 <CommandPalette
@@ -658,7 +665,7 @@ function AuthenticatedApp() {
                         onCancel={cancelAllActive}
                         mode={inputMode}
                         onModeChange={setInputMode}
-                        activeNodeTitle={activeNodeId ? (nodes.find((n) => n.id === activeNodeId)?.title ?? null) : null}
+                        activeNodeTitle={null}
                         isLoading={isLoading}
                         isWaitingForInput={isWaitingForAnswer}
                         waitingQuestionText={isWaitingForAnswer ? pendingQuestionStep?.reasoning ?? undefined : undefined}

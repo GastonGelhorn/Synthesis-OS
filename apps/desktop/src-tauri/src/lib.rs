@@ -702,7 +702,7 @@ async fn list_storage(
     state
         .syscall_tx
         .send(kernel::syscall::Syscall::StorageList {
-            agent_id: "settings".to_string(),
+            agent_id: "user".to_string(),
             path,
             response_tx: tx,
         })
@@ -724,7 +724,7 @@ async fn read_storage(
     state
         .syscall_tx
         .send(kernel::syscall::Syscall::StorageRead {
-            agent_id: "settings".to_string(),
+            agent_id: "user".to_string(),
             path,
             response_tx: tx,
         })
