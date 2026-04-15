@@ -29,7 +29,7 @@ once_cell = "1.21"
 ort = { version = "2.0.0-rc.11", features = ["ndarray"] }
 tokenizers = { version = "0.20", default-features = false, features = ["onig"] }
 ndarray = "0.16"
-axum = { version = "0.7", features = ["json", "macros", "ws", "tower-log"] }
+axum = { version = "0.8", features = ["json", "macros", "ws", "tower-log"] }
 axum-server = { version = "0.8", features = ["tls-rustls"] }
 rustls = { version = "0.23", features = ["ring"] }
 tower = "0.5"
